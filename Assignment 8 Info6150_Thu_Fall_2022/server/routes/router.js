@@ -25,15 +25,15 @@ route.get('/update-user', (req,res) => {
     res.render('update_user');
 });
 
-route.post('/api/users', controller.create);
+route.post('/api/users/create', controller.create);
 
-route.get('/api/users', controller.find);
+route.get('/api/users/getAll', controller.find);
 
 // API
 
-route.put('/api/users/:id', controller.update);
+route.put('/api/users/edit/:id', controller.update);
 
-route.delete('/api/users/:id', controller.delete);
+route.delete('/api/users/delete/:id', controller.delete);
 
 // /**
 //  *  @description add users
