@@ -1,5 +1,5 @@
 var Userdb = require('../model/model');
-
+const bcrypt = require('bcrypt');
 var errorFlag = false;
 
 console.log("I have entered controller");
@@ -37,7 +37,7 @@ function ValidUserName(userName) {
 }
 
 // create and save new user
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
 
     // validate request
     console.log(req.body)
@@ -47,10 +47,12 @@ exports.create = (req, res) => {
         return;
     }
 
+    const salt = await bcrypt.genSalt(10);
+
     // new user
     const user = new Userdb({
         email: req.body.email,
-        password: req.body.password,
+        password: await bcrypt.hash(req.body.password, salt),
         fullname: req.body.fullname
     })
 
@@ -82,7 +84,7 @@ exports.create = (req, res) => {
         .then(data => {
             console.log(user.email)
             console.log(data)
-            res.send(data)
+            res.status(201).send(data)
             // res.redirect('/add-user');
         })
         .catch(err => {
@@ -122,7 +124,7 @@ exports.find = (req, res) => {
 }
 
 // Update a new idetified user by user id
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
 
     if (!req.body) {
         return res
@@ -132,7 +134,9 @@ exports.update = (req, res) => {
 
     console.log(req.body)
 
-    var password = req.body.password
+    const salt = await bcrypt.genSalt(10);
+
+    var password = await bcrypt.hash(req.body.password, salt);
     var fullname = req.body.fullname
 
     if (!IsPasswordWeak(password)) {
@@ -154,7 +158,7 @@ exports.update = (req, res) => {
     Userdb.findOneAndUpdate(inputEmail, req.body)
         .then(data => {
             if (!data) {
-                res.status(404).send({ message: `Cannot Delete with id ${inputEmail}. Maybe inputEmail is wrong` })
+                res.status(404).send({ message: `Cannot update with id ${inputEmail}. Maybe inputEmail is wrong` })
             } else {
                 res.send({
                     message: "User was updated success!"
