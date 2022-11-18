@@ -1,0 +1,24 @@
+.inputContainer {
+  margin: 30px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Input {
+  width: 30%;
+  margin-bottom: 10px;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.Submit {
+  background-color: teal;
+  border: none;
+  color: white;
+  padding: 10px 0;
+  font-size: 18px;
+  width: 30%;
+  margin-top: 30px;
+}

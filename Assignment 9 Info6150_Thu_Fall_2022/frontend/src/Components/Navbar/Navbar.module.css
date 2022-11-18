@@ -1,0 +1,9 @@
+.Container {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.Container a {
+  margin-right: 20px;
+}
